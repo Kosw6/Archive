@@ -101,3 +101,29 @@
 * 주기적 인덱스 모니터링.
 
 ---
+
+
+
+## 📌 사례 5 — 파일전송시에 오류 발생(사이즈)
+
+### **1) 문제 상황**
+
+* 팀프로젝트 중의 게시판 기능을 개발하는 도중에 프론트 팀원으로 부터 오류 발생확인
+* 게시물 작성,수정중에 첨부파일 첨부시 오류
+### **2) 원인 분석**
+
+* 서버 로그 확인 후
+ ```
+org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException: The field files exceeds its maximum permitted size of 1048576 bytes.
+ ```
+해당 에러 확인, 첨부파일이 톰캣에서 허용하는 최대치에 다다른 것으로 판단
+
+### **3) 해결 방법**
+
+* spring.servlet.multipart.max-file-size=20MB
+* spring.servlet.multipart.max-request-size=20MB
+으로 수정하였고 정상적으로 파일 수정도 가능
+
+### **4) 재발 방지 조치**
+
+* 스프링을 통해 파일을 처리할때는 서버에서 받아드리는 파일의 기본값이 존재한다는 것을 인지하였고 이 문서에 오류 목록을 확인하여 다른 프로젝트에서도 초기 세팅시에 활용
